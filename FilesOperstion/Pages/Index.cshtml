@@ -1,0 +1,76 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<form method="post">
+    <div>
+        <table>
+            <tr>
+                <td>First Name</td>
+                <td><input name="FirstName" type="text"/></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><input name="LastName" type="text"/></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input name="Email" type="text"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Create" asp-page-handler="Create"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Add" asp-page-handler="Add"/></td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+<form>
+    <div>
+        <h1>Информация из файла</h1>
+        @if (Model.userData != null)
+        {
+            <ol>
+                @foreach (string dataLine in Model.userData)
+                {
+                    <li>
+                        User
+                        <ul>
+                            @foreach (string dataItem in dataLine.Split(Model.delimiterChar))
+                            {
+                                <li>@dataItem</li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ol>
+        }
+    </div>
+</form>
+
+<h1>Удаление файла с сайта</h1>
+<form method="post">
+    <p>Имя файла для удаления(без расширения .txt)
+    <input name="fileName" type="text" value=""/>
+    </p>
+    <p><input type="submit" value="Delete" asp-page-handler="Delete"/></p>
+</form>
+@if(TempData["Success"] != null)
+{
+    <div>
+        @Html.Raw(@TempData["Success"])
+    </div>
+}
+
+<h1>Добавление файла на сайт</h1>
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="files"/>
+    <input type="file" name="files"/>
+    <input type="submit" value="Upload" asp-page-handler="Upload"/>
+</form>
